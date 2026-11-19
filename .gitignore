@@ -1,0 +1,15 @@
+﻿# Virtual environments & Python cache
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Downloaded binaries & raw MODFLOW work files
+bin/
+outputs/mf6_runs/
+
+# Large processed datasets (regenerated via hyproj-run)
+data/processed/*.nc
+data/processed/*.parquet

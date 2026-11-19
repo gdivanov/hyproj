@@ -1,0 +1,44 @@
+project:
+  name: "athabasca_tailings_seepage_study"
+  output_dir: "outputs"
+  data_dir: "data"
+  n_jobs: -1                  # -1 uses all available CPU cores for percolation screening
+  random_seed: 2026
+
+grid:
+  nx: 50
+  ny: 50
+  nz: 25
+  dx: 10.0                    # meters
+  dy: 10.0                    # meters
+  dz: 2.0                     # meters
+
+geology:
+  # Depositional scenarios to compare in probabilistic cut-off curves
+  scenarios:
+    anisotropic_sheets:
+      corr_lengths: [80.0, 80.0, 6.0]    # Wide outwash sand sheets
+    braided_channels:
+      corr_lengths: [150.0, 25.0, 5.0]   # Elongated paleochannels along X
+    isolated_lenses:
+      corr_lengths: [35.0, 35.0, 4.0]    # Disconnected glacial till lenses
+  k_sand_m_s: 1.0e-4          # Clean outwash sand (m/s)
+  k_till_m_s: 1.0e-9          # Glacial clay till aquitard (m/s)
+  synthetic_wells:
+    - {well_id: "BH-01", ix: 10, iy: 25}
+    - {well_id: "BH-02", ix: 25, iy: 25}
+    - {well_id: "BH-03", ix: 40, iy: 25}
+
+percolation_sweep:
+  sand_fractions: [0.10, 0.14, 0.18, 0.22, 0.26, 0.30, 0.35, 0.40]
+  realizations_per_step: 100  # Fast 3D Hoshen-Kopelman runs per sand fraction
+
+modflow_benchmark:
+  enabled: true
+  target_sand_fraction: 0.22  # Head-to-head comparison against deterministic K_G & K_A
+  quantiles_to_solve: [0.10, 0.50, 0.90] # P10, P50, P90 realizations passed to MODFLOW 6
+  head_west_m: 55.0           # Upgradient tailings pond head (m)
+  head_east_m: 50.0           # Downgradient compliance creek head (m)
+  porosity_sand: 0.25
+  porosity_till: 0.40
+  vertical_anisotropy: 0.1

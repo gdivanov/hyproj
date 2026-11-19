@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hyproj"
+version = "0.1.0"
+description = "Stochastic 3D Percolation & MODFLOW 6 Preferential Seepage Modeling Pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "pyarrow>=14.0",      # Fast columnar Parquet data pipelines
+    "xarray>=2023.6",     # Labeled 3D NetCDF geophysical/head grids
+    "netCDF4>=1.6",
+    "flopy>=3.5",         # USGS MODFLOW 6 Python interface
+    "pyyaml>=6.0",        # External YAML configuration
+    "joblib>=1.3",        # Parallel Monte Carlo execution across CPU cores
+    "matplotlib>=3.7",    # 2D cross-sections & probabilistic cut-off plots
+    "pyvista>=0.42",      # Optional interactive 3D voxel & channel rendering
+]
+
+[project.scripts]
+hyproj-run = "hyproj.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
